@@ -13,6 +13,8 @@ Este proyecto es una plataforma de Ecommerce enfocada en la compra y administrac
 
 ![alt text](image.png)
 
+![alt text](image-6.png)
+
 ![alt text](image-1.png)
 
 ![alt text](image-2.png)
