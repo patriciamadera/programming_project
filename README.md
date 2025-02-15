@@ -27,6 +27,7 @@ Estilos: Tailwind Css
 Esta es la página de inicio, cuenta con un login, un botón para registrarse y si se le olvida la contraseña.
 
 ![alt text](image-9.png)
+![alt text](image-14.png)
 Aqui se muestra un ejemplo de la validación del login
 
 ![alt text](image-12.png)
@@ -36,6 +37,7 @@ Validacion en el correo
 Se muestra el formulario de Registro.
 
 ![alt text](image-11.png)
+![alt text](image-13.png)
 Y las validaciones en el mismo formulario
 
 
