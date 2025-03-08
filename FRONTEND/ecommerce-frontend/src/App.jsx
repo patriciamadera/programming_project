@@ -1,30 +1,33 @@
-import Login from "../src/components/login";
-import Footer from "../src/components/footer";
-import { useState } from "react";
-import Navbar from "../src/components/navbar";
-import Banner from "../src/components/banner";
-import MovieGrid from "../src/components/movieGrid";
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { useState } from 'react';
+import Login from './pages/login';
+import Home from './pages/home';
+import MovieDetail from './pages/movieDetail';
+import Navbar from './components/navbar';
+import Footer from './components/footer';
+import Dashboard from './pages/Dashboard/dashboard';
+import PrivateRoute from './routes/privateRoutes';
+import AddMovie from './pages/Dashboard/addMovie';
+import EditMovie from './pages/Dashboard/editMovie';
 
-const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para manejar login
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado de autenticación
 
   return (
-    <div className="bg-black text-white min-h-screen">
-      {isLoggedIn ? (
-        <>
-          <Navbar />
-          <Banner />
-          <div className="flex-1">
-            <MovieGrid />
-          </div>
-        </>
-      ) : (
-        <Login setIsLoggedIn={setIsLoggedIn} />
-      )}
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/home" element={<PrivateRoute isLoggedIn={isLoggedIn}><Home /></PrivateRoute>} />
+        <Route path="/movies/:id" element={<PrivateRoute isLoggedIn={isLoggedIn}><MovieDetail /></PrivateRoute>} />
+        <Route path="/dashboard" element={<PrivateRoute isLoggedIn={isLoggedIn}><Dashboard /></PrivateRoute>} />
+        <Route path="dashboard/add-movie" element={<PrivateRoute isLoggedIn={isLoggedIn}><AddMovie /></PrivateRoute>} />
+        <Route path="dashboard/edit-movie/:id" element={<PrivateRoute isLoggedIn={isLoggedIn}><EditMovie /></PrivateRoute>} />
+      </Routes>
       <Footer />
-    </div>
+    </Router>
   );
-};
-
+}
 
 export default App;

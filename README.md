@@ -54,4 +54,32 @@ A continuación se muestran fotos de la aplicación hasta el momento
 
 ![alt text](image-5.png)
 
+Comando para instalar react Router y asi convertir el frontend en un SPA
+![alt text](image-15.png)
+
+Se agregó un folder de routes y dentro de esta se creo un archivo routes.jsx en donde se definen las rutas de la aplicacion
+![alt text](image-16.png)
+![alt text](image-17.png)
+
+Para las rutas se creo un archivo privateRoutes para que el usuario pone una ruta en el buscador, este lo redigira al login.
+![alt text](image-19.png)
+
+Las rutas principales en el proyecto son las siguientes:
+
+/login: Página de inicio de sesión.
+/home: Página principal de la aplicación.
+/movies/:id: Detalles de una película específica.
+/dashboard: Panel de control (requiere autenticación).
+/add-movie: Página para agregar una nueva película (requiere autenticación).
+/edit-movie/:id: Página para editar una película existente (requiere autenticación).
+
+Tambien se creo un archivo db.json para manejar los datos de las peliculas, la cual utiliza http://localhost:3000/movies
+![alt text](image-18.png)
+
+La cual consume el siguiente servicio peliculasService.js, en donde por el momento tenemos GetMovies, GetMovieById y updateMovie
+![alt text](image-20.png)
+
+
+
+
 
