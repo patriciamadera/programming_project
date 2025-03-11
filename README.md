@@ -82,4 +82,26 @@ La cual consume el siguiente servicio peliculasService.js, en donde por el momen
 
 
 
+## Backend
 
+Se creo una carpeta dentro del proyecto para manejar el backend, en este caso utilice MongoDB como mi gestor de Base de Datos, Node.js y Express.
+
+Primero inicializamos el proyecto con node.js, lo cual genero el archivo package.json
+![alt text](image-21.png)
+
+Luego instalamos las dependencias e instalamos nodemon para reiniciar el servidor en cambios automáticamente
+![alt text](image-22.png)
+
+Para configurar el servidor con Express, cree un archivo server.js
+
+Luego configure las variables de entorno creando un archivo llamado .env, en donde tengo el usuario y contraseña de mi base de datos.
+
+Este es mi backend hasta el momento
+![alt text](image-23.png)
+Se agregaron models, routes, el servidor
+
+Luego de que se configuro todo, entre a postman y agregue Categorias, Usuarios y Peliculas
+
+![alt text](image-24.png)
+![alt text](image-25.png)
+![alt text](image-26.png)
