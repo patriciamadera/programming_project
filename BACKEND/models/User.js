@@ -1,32 +1,41 @@
-// models/User.js
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+class User {
+  constructor(id, firstName, lastName, email, password, phoneNumber, role, isActive, createdAt, updatedAt) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.phoneNumber = phoneNumber;
+    this.role = role;
+    this.isActive = isActive;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 
-const userSchema = new mongoose.Schema(
-  {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    phoneNumber: { type: String },
-    role: { type: String, enum: ["admin", "customer"], default: "customer" },
-    isActive: { type: Boolean, default: true },
-  },
-  { timestamps: true } // Para agregar createdAt y updatedAt automáticamente
-);
+  getFullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 
-// Encriptación de la contraseña antes de guardar
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
-});
+  getEmail() {
+    return this.email;
+  }
 
-// Método para comparar las contraseñas
-userSchema.methods.comparePassword = async function (password) {
-  return bcrypt.compare(password, this.password);
-};
+  getRole() {
+    return this.role;
+  }
 
-const User = mongoose.model("User", userSchema);
+  getIsActive() {
+    return this.isActive;
+  }
+
+  update(firstName, lastName, email, phoneNumber, role, isActive) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
+    this.role = role;
+    this.isActive = isActive;
+  }
+}
 
 module.exports = User;

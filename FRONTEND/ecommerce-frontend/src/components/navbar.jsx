@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Logout from "../components/logout"; 
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Estado para el sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
 
-  // Cierra el dropdown si se hace clic fuera
   useEffect(() => {
     if (location.pathname === "/login") {
       return;
@@ -26,11 +26,10 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Botón de menú (hamburguesa) */}
       <label
         htmlFor="menu-toggle"
         className="absolute top-4 left-4 z-20 p-2 bg-black rounded-lg cursor-pointer"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)} // Cambiar el estado al hacer clic
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         <svg
           className="w-6 h-6 text-white"
@@ -48,14 +47,15 @@ const Navbar = () => {
         </svg>
       </label>
 
-      {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-10 w-64 h-screen bg-gray-800 text-white p-4 space-y-6 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`} // Agregar clases dinámicas
+        className={`fixed top-0 left-0 z-10 w-64 h-screen bg-gray-800 text-white p-4 space-y-6 transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <nav>
           <ul className="space-y-6">
             {[
-              { name: ""},
+              { name: "" },
               { name: "Inicio", path: "/home" },
               { name: "Dashboard", path: "/dashboard" },
               { name: "Películas", path: "/movies" },
@@ -75,10 +75,8 @@ const Navbar = () => {
         </nav>
       </aside>
 
-      {/* Navbar */}
       <nav className="bg-gray-900 w-full p-4 flex justify-end items-center">
         <div className="relative" id="profile-menu">
-          {/* Botón de perfil */}
           <button
             className="flex items-center space-x-2 focus:outline-none"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -90,14 +88,12 @@ const Navbar = () => {
             />
           </button>
 
-          {/* Dropdown */}
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-red-500 rounded-lg shadow-lg z-50">
               <ul className="p-2">
                 {[
                   { name: "Cuenta", path: "/account" },
                   { name: "Configuración", path: "/settings" },
-                  { name: "Cerrar sesión", path: "/logout" },
                 ].map((option) => (
                   <li key={option.name}>
                     <Link
@@ -108,6 +104,9 @@ const Navbar = () => {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <Logout /> 
+                </li>
               </ul>
             </div>
           )}

@@ -1,13 +1,21 @@
-import { Navigate } from "react-router-dom";
-import PropTypes from 'prop-types';
+import { Navigate, Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/authContext";
 
-const PrivateRoute = ({ children, isLoggedIn }) => {
-  return isLoggedIn ? children : <Navigate to="/login" replace />;
+const PrivateRoutes = () => {
+  const auth = useContext(AuthContext);
+  const token = localStorage.getItem("token"); 
+
+  if (!auth) return <p>Cargando...</p>; 
+  const { user, loading } = auth; 
+
+  if (loading) return <p>Cargando...</p>; 
+
+  if (!token) {
+    return <Navigate to="/login" replace />; 
+  }
+
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-PrivateRoute.propTypes = {
-  children: PropTypes.node.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired, // Espera el estado de autenticación
-};
-
-export default PrivateRoute;
+export default PrivateRoutes;

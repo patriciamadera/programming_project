@@ -105,3 +105,30 @@ Luego de que se configuro todo, entre a postman y agregue Categorias, Usuarios y
 ![alt text](image-24.png)
 ![alt text](image-25.png)
 ![alt text](image-26.png)
+
+
+###Integración y Seguridad
+Se agregaron unos middleware para auth y verificar el token
+![alt text](image-27.png)
+
+Y un generador de token con JWS, tambien en el archivo .env se agrego un SECRET KEY
+![alt text](image-28.png)
+
+En el frontend se creo otro archivo .env con la ruta del backend
+![alt text](image-29.png)
+
+
+Se crearon varios archivos en el front para integrar el frontend con el backend
+![alt text](image-31.png)
+![alt text](image-30.png)
+
+Se crearon dos servicios apiClient y authServices
+* ApiClient
+![alt text](image-32.png)
+
+* authService
+![alt text](image-33.png)
+
+Aqui un ejemplo iniciando sesion
+![alt text](image-34.png)
+
