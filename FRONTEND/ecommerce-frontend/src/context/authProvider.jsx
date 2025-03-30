@@ -1,33 +1,48 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { AuthContext } from "./authContext";
 import { getCurrentUser } from "../pages/services/authServices";
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Nuevo estado para evitar parpadeo
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const userRef = useRef(user);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
-      setLoading(false); // Indicar que la autenticación ya terminó de cargar
-    };
+    useEffect(() => {
+        const fetchUser = async () => {
+            console.log("AuthProvider: fetching user...");
+            const token = localStorage.getItem("token");
+            console.log("AuthProvider: token from localStorage:", token);
+            if (token) {
+                const currentUser = await getCurrentUser(token);
+                console.log("AuthProvider: currentUser:", currentUser);
+                setUser(currentUser);
+                userRef.current = currentUser;
+                console.log("AuthProvider: user set to:", currentUser);
+            } else {
+                setUser(null);
+                userRef.current = null;
+            }
+            setLoading(false);
+            console.log("AuthProvider: user fetched, user:", userRef.current);
+        };
 
-    fetchUser();
-  }, []);
+        fetchUser();
+    }, []);
 
-  if (loading) return <p>Cargando...</p>; // Evita que el contexto sea undefined mientras carga
+    console.log("AuthProvider: render loading:", loading, "user:", userRef.current);
 
-  return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    if (loading) return <p>Cargando...</p>;
+
+    return (
+        <AuthContext.Provider value={{ user: userRef.current, setUser }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 export default AuthProvider;

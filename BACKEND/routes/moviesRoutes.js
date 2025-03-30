@@ -3,6 +3,30 @@ const router = express.Router();
 const MovieMongo = require("../models/MovieMongo");
 const authMiddleware = require("./middlewares/authMiddleware");
 const verificarToken = require("./middlewares/TokenVerification");
+const { callOpenAIFunction } = require("../utils/openIAService");
+const cors = require("cors");
+
+router.use(cors({
+  origin: "http://localhost:5173",
+}));
+
+// Endpoint para obtener la descripción de una película usando OpenAI
+router.post("/description", async (req, res) => {
+  const { movieTitle } = req.body;
+  console.log("Solicitud recibida en /api/movies/description:", { movieTitle });
+
+  const messages = [{ role: "user", content: `Dame una descripción de la película ${movieTitle}` }];
+
+  try {
+      const response = await callOpenAIFunction(messages);
+      console.log("Respuesta de OpenAI:", response);
+
+      res.json({ description: response.message });
+  } catch (error) {
+      console.error("Error en /api/movies/description:", error);
+      res.status(500).json({ message: "Error al obtener la descripción." });
+  }
+});
 
 // Obtener todas las películas (MongoDB)
 router.get("/", verificarToken, async (req, res) => { 

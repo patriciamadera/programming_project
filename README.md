@@ -132,3 +132,35 @@ Se crearon dos servicios apiClient y authServices
 Aqui un ejemplo iniciando sesion
 ![alt text](image-34.png)
 
+
+## Desarrollo del Chatbot
+
+Primero nos registramos en OpenAI y generamos una nueva clave para guardarla en el proyecto
+
+Instalamos la biblioteca de OpenAI en el backend del proyecto
+![alt text](image-35.png)
+
+Creamos un asistente en Open IA y escribimos las instrucciones de este
+![alt text](image-37.png)
+
+Tambien agregamos varias funciones para:
+* Buscar la informacion sobre una pelicula
+* Buscar las peliculas por género
+* Buscar peliculas por precio
+![alt text](image-38.png)
+
+Creamos el archivo para manejar OpenAI
+![alt text](image-39.png)
+
+Luego creamos un Endpoint en el backend
+![alt text](image-40.png)
+
+Asi es como responde desde OpenAI
+![alt text](image-41.png)
+![alt text](image-42.png)
+![alt text](image-43.png)
+
+Asi responde la IA desde la aplicación
+![alt text](image-44.png)
+![alt text](image-45.png)
+

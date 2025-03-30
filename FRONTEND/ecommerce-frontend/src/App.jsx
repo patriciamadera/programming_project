@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { useState } from 'react';
 import Login from './pages/login';
 import Register from './pages/register'; 
 import Home from './pages/home';
@@ -13,21 +12,21 @@ import EditMovie from './pages/Dashboard/editMovie';
 import { AuthProvider } from './context/authProvider';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado de autenticación
-
     return (
         <AuthProvider>
             <Router>
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Navigate to="/login" replace />} />
-                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-                    <Route path="/register" element={<Register setIsRegistered={setIsLoggedIn} />} /> 
-                    <Route path="/home" element={<PrivateRoute isLoggedIn={isLoggedIn}><Home /></PrivateRoute>} />
-                    <Route path="/movies/:id" element={<PrivateRoute isLoggedIn={isLoggedIn}><MovieDetail /></PrivateRoute>} />
-                    <Route path="/dashboard" element={<PrivateRoute isLoggedIn={isLoggedIn}><Dashboard /></PrivateRoute>} />
-                    <Route path="dashboard/add-movie" element={<PrivateRoute isLoggedIn={isLoggedIn}><AddMovie /></PrivateRoute>} />
-                    <Route path="dashboard/edit-movie/:id" element={<PrivateRoute isLoggedIn={isLoggedIn}><EditMovie /></PrivateRoute>} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} /> 
+                    <Route element={<PrivateRoute />}>
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/movies/:id" element={<MovieDetail />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="dashboard/add-movie" element={<AddMovie />} />
+                        <Route path="dashboard/edit/:id" element={<EditMovie />} />
+                    </Route>
                 </Routes>
                 <Footer />
             </Router>

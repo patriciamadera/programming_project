@@ -1,21 +1,25 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { AuthContext } from "../context/authContext";
 
 const PrivateRoutes = () => {
-  const auth = useContext(AuthContext);
-  const token = localStorage.getItem("token"); 
+    const { user, loading } = useContext(AuthContext);
 
-  if (!auth) return <p>Cargando...</p>; 
-  const { user, loading } = auth; 
+    const isAuthenticated = useMemo(() => {
+        return !loading && !!user;
+    }, [user, loading]);
 
-  if (loading) return <p>Cargando...</p>; 
+    console.log("PrivateRoutes: loading:", loading, "isAuthenticated:", isAuthenticated); // Log de depuración
 
-  if (!token) {
-    return <Navigate to="/login" replace />; 
-  }
+    if (loading) {
+        return <p>Cargando...</p>;
+    }
 
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    return <Outlet />;
 };
 
 export default PrivateRoutes;

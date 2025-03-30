@@ -1,4 +1,5 @@
 import Banner from "../components/Banner";
+import ChatOpenAI from "../components/chatOpenIA";
 import MovieGrid from "../components/movieGrid";
 
 const Home = () => {
@@ -6,6 +7,9 @@ const Home = () => {
     <div className="bg-black text-white pb-10">
       <Banner />
       <MovieGrid />
+      <div className="mt-8 px-4">
+        <ChatOpenAI/>
+      </div>
     </div>
   );
 };

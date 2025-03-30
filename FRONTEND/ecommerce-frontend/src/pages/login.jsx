@@ -1,8 +1,9 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Peliculas from "../assets/img/peliculas.jpeg";
 import { loginUser } from "../pages/services/authServices";
+import { AuthContext } from "../context/authContext";
 
 const formReducer = (state, event) => {
     return {
@@ -21,13 +22,14 @@ const Login = ({ setIsLoggedIn }) => {
     const [authError, setAuthError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const { setUser } = useContext(AuthContext);
 
     useEffect(() => {
         const storedLogin = localStorage.getItem("isLoggedIn");
         if (storedLogin === "true") {
             navigate("/home", { replace: true });
         }
-    }, [navigate]); // Array de dependencias con 'navigate'
+    }, [navigate]);
 
     const validateField = (name, value) => {
         let errorMessage = "";
@@ -79,6 +81,7 @@ const Login = ({ setIsLoggedIn }) => {
                 localStorage.setItem("token", response.token);
                 setIsLoggedIn(true);
                 localStorage.setItem("isLoggedIn", "true");
+                setUser(response.user);
                 navigate("/home", { replace: true });
             } else {
                 setAuthError("Token no recibido del servidor.");

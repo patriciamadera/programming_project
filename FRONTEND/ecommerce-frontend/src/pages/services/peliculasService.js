@@ -54,3 +54,14 @@ export const deleteMovie = async (id) => {
         throw error;
     }
 };
+
+// Obtener todas las categorías (MongoDB)
+export const getCategories = async () => {
+    try {
+        const response = await apiClient.get("/api/categories");
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener las categorías:", error);
+        return [];
+    }
+};

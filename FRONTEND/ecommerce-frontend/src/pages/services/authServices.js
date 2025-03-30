@@ -3,19 +3,26 @@ import apiClient from "./apiClient";
 // 🔹 Función para obtener el usuario actual
 export const getCurrentUser = async () => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
+      const token = localStorage.getItem("token");
+      console.log("Token obtenido de localStorage:", token); // Log del token
 
-    const response = await apiClient.get("api/auth/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      if (!token) {
+          console.log("No se encontró token en localStorage.");
+          return null;
+      }
 
-    return response.data; // Devuelve los datos del usuario
+      console.log("Enviando solicitud a /api/auth/me..."); // Log de la solicitud
+      const response = await apiClient.get("api/auth/me", {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      console.log("Respuesta del backend:", response.data); // Log de la respuesta
+      return response.data;
   } catch (error) {
-    console.error("Error al obtener el usuario:", error);
-    return null;
+      console.error("Error al obtener el usuario:", error);
+      return null;
   }
 };
 

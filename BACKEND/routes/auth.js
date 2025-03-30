@@ -67,14 +67,20 @@ router.post("/login", async (req, res) => {
 // Obtener datos del usuario autenticado
 router.get("/me", verificarToken, async (req, res) => {
     try {
-        const user = await UserModel.findById(req.user.id).select("-password"); 
+        console.log("req.user en /me:", req.user); // Log de req.user
+        if (!req.user || !req.user.id) {
+            console.log("req.user o req.user.id no definidos.");
+            return res.status(401).json({ error: "Token inválido o usuario no encontrado en el token." });
+        }
+        const user = await UserModel.findById(req.user.id).select("-password");
+        console.log("Usuario encontrado:", user); // Log del usuario encontrado
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
 
         res.json(user);
     } catch (error) {
-        console.error(error);
+        console.error("Error en /me:", error);
         res.status(500).json({ error: "Error al obtener datos del usuario" });
     }
 });

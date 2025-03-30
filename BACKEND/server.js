@@ -10,6 +10,7 @@ const movieRoutes = require("./routes/moviesRoutes");
 const movieSQLRoutes = require("./routes/moviesRoutesSQL"); 
 const categoryRoutes = require("./routes/categoryRoutes");
 const categorySQLRoutes = require("./routes/categoryRoutesSQL"); 
+const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -53,6 +54,7 @@ app.use("/api/movies", movieRoutes);
 app.use("/api/movies/sql", movieSQLRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/categories/sql", categorySQLRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Iniciar servidor
 app.listen(PORT, () => {
