@@ -10,11 +10,9 @@ const AddMovie = () => {
   const [duration, setDuration] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
-  const [image, setImage] = useState();
+  const [image, setImage] = useState("");
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-
-  console.log("Categories data:", categories);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -32,33 +30,31 @@ const AddMovie = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Valores de los estados:", {
-      title,
-      description,
-      releaseDate,
-      rating,
-      duration,
-      price,
-      category,
-      image,
-    });
-
     try {
-      const formData = new FormData();
+      const formData = {
+        title: title,
+        description: description,
+        release_date: releaseDate,
+        rating: rating,
+        duration: duration,
+        price: price,
+        category: category,
+        poster: image,
+      };
 
-      formData.append("title", title);
-      formData.append("description", description);
-      const releaseDateISO = new Date(releaseDate).toISOString().split("T")[0];
-      formData.append("release_date", releaseDateISO);
-      formData.append("rating", rating);
-      formData.append("duration", duration);
-      formData.append("price", price);
-      formData.append("category", category);
-      formData.append("poster", image);
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("No se encontró el token de autenticación.");
+      }
 
       const response = await fetch("http://localhost:5000/api/movies", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -146,14 +142,14 @@ const AddMovie = () => {
                 htmlFor="rating"
                 className="block text-sm font-medium text-gray-300"
               >
-                Calificación (0-10)
+                Calificación (0-5)
               </label>
               <input
                 id="rating"
                 name="rating"
                 type="number"
                 min="0"
-                max="10"
+                max="5"
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-700 placeholder-gray-400 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm sm:text-sm bg-gray-700"
                 placeholder="Calificación"
@@ -226,7 +222,7 @@ const AddMovie = () => {
                 htmlFor="image"
                 className="block text-sm font-medium text-gray-300"
               >
-                Imagen
+                Imagen URL
               </label>
               <input
                 id="image"

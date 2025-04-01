@@ -25,7 +25,10 @@ export const getMovieById = async (id) => {
 // Crear una película (MongoDB)
 export const createMovie = async (movieData) => {
     try {
-        const response = await apiClient.post("/api/movies", movieData); 
+        const response = await apiClient.post("/api/movies", movieData);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.data;
     } catch (error) {
         console.error("Error al crear la película:", error);

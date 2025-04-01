@@ -4,6 +4,8 @@ const MovieMongo = require("../models/MovieMongo");
 const authMiddleware = require("./middlewares/authMiddleware");
 const verificarToken = require("./middlewares/TokenVerification");
 const { callOpenAIFunction } = require("../utils/openIAService");
+const { body, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 const cors = require("cors");
 
 router.use(cors({
@@ -23,7 +25,6 @@ router.post("/description", async (req, res) => {
 
       res.json({ description: response.message });
   } catch (error) {
-      console.error("Error en /api/movies/description:", error);
       res.status(500).json({ message: "Error al obtener la descripción." });
   }
 });
@@ -36,7 +37,6 @@ router.get("/", verificarToken, async (req, res) => {
       console.log("Películas encontradas:", movies);
       res.json(movies);
   } catch (error) {
-      console.error("Error al obtener las películas:", error);
       res.status(500).json({ message: "Error al obtener las películas" });
   }
 });
@@ -55,13 +55,51 @@ router.get("/:id", async (req, res) => {
 });
 
 // Agregar película (MongoDB) (Protegido por autenticación)
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", [
+  body('title').notEmpty().withMessage('El título es obligatorio'),
+  body('description').notEmpty().withMessage('La descripción es obligatoria'),
+  body('release_date').isISO8601({ strict: true, strictSeparator: true }).toDate().withMessage('Fecha de lanzamiento inválida'),
+  body('rating').isNumeric().withMessage('La calificación debe ser un número'),
+  body('duration').isNumeric().withMessage('La duración debe ser un número'),
+  body('price').isNumeric().withMessage('El precio debe ser un número'),
+  body('category').notEmpty().withMessage('Categoría es obligatoria'),
+  body('poster').optional().isURL().withMessage('El poster debe ser una url valida'),
+], authMiddleware, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
-    const movie = new MovieMongo(req.body);
-    const savedMovie = await movie.save();
-    res.status(201).json(savedMovie);
+      const { title, description, release_date, rating, duration, price, category, poster } = req.body;
+
+      // Validar que la categoría exista y que sea un ObjectId válido
+      if (!mongoose.Types.ObjectId.isValid(category)) {
+          return res.status(400).json({ message: 'Categoría inválida.' });
+      }
+
+      const categoryExists = await mongoose.model('CategoryMongo').findById(category);
+
+      if (!categoryExists) {
+          return res.status(400).json({ message: 'La categoría especificada no existe.' });
+      }
+
+      // Convertir tipos de datos explícitamente
+      const movie = new MovieMongo({
+          title,
+          description,
+          release_date: new Date(release_date),
+          rating: parseFloat(rating),
+          duration: parseInt(duration),
+          price: parseFloat(price),
+          category: category, 
+          poster,
+      });
+
+      const savedMovie = await movie.save();
+      res.status(201).json(savedMovie);
   } catch (error) {
-    res.status(400).json({ message: `Error al agregar película: ${error.message}` });
+      res.status(400).json({ message: `Error al agregar película: ${error.message}`, error: error });
   }
 });
 

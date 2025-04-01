@@ -25,12 +25,15 @@ const EditMovie = () => {
         const movie = await getMovieById(id);
         setTitle(movie.title);
         setDescription(movie.description);
-        setReleaseDate(movie.release_date);
+        const formattedDate = movie.release_date
+          ? movie.release_date.slice(0, 10)
+          : "";
+        setReleaseDate(formattedDate);
         setRating(movie.rating);
         setDuration(movie.duration);
         setPrice(movie.price);
-        setCategory(movie.category._id); // Establecer el ID de la categoría
-        // setImage(movie.poster); // Si deseas mostrar la imagen actual (requiere manejo especial)
+        setCategory(movie.category._id);
+        setImage(movie.poster);
 
         const categoriesData = await getCategories();
         setCategories(categoriesData);
@@ -46,19 +49,18 @@ const EditMovie = () => {
     e.preventDefault();
 
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("release_date", releaseDate);
-      formData.append("rating", rating);
-      formData.append("duration", duration);
-      formData.append("price", price);
-      formData.append("category", category);
-      if (image) {
-        formData.append("poster", image);
-      }
+      const updatedMovie = {
+        title: title,
+        description: description,
+        release_date: releaseDate,
+        rating: rating,
+        duration: duration,
+        price: price,
+        category: category,
+        poster: image, 
+    };
 
-      await updateMovie(id, formData);
+      await updateMovie(id, updatedMovie);
       navigate("/dashboard");
     } catch (error) {
       console.error("Error updating movie:", error);
@@ -138,14 +140,14 @@ const EditMovie = () => {
                 htmlFor="rating"
                 className="block text-sm font-medium text-gray-300"
               >
-                Calificación (0-10)
+                Calificación (0-5)
               </label>
               <input
                 id="rating"
                 name="rating"
                 type="number"
                 min="0"
-                max="10"
+                max="5"
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-700 placeholder-gray-400 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm sm:text-sm bg-gray-700"
                 placeholder="Calificación"
@@ -223,9 +225,9 @@ const EditMovie = () => {
               <input
                 id="image"
                 name="image"
-                type="file"
-                accept="image/*"
+                type="text"
                 className="mt-1 block w-full px-3 py-2 border border-gray-700 placeholder-gray-400 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm sm:text-sm bg-gray-700"
+                value={image}
                 onChange={handleImageChange}
               />
             </div>
@@ -233,7 +235,7 @@ const EditMovie = () => {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
             >
               Actualizar Película
             </button>
