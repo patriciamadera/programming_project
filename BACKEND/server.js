@@ -56,8 +56,12 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/categories/sql", categorySQLRoutes);
 app.use("/api/ai", aiRoutes);
 
+app.get("/api/status", (req, res) => {
+  res.json({ message: "Servidor funcionando correctamente 🚀" });
+});
+
 // Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);
 });
 

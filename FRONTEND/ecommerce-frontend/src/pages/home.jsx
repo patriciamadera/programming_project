@@ -1,4 +1,4 @@
-import Banner from "../components/Banner";
+import Banner from "../components/banner";
 import ChatOpenAI from "../components/chatOpenIA";
 import MovieGrid from "../components/movieGrid";
 

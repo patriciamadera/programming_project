@@ -164,3 +164,27 @@ Asi responde la IA desde la aplicación
 ![alt text](image-44.png)
 ![alt text](image-45.png)
 
+## Despliegue a AWS
+Se crea una instancia EC2 en AWS y se configura 
+![alt text](image-46.png)
+![alt text](image-50.png)
+
+Se configuraron los puertos
+![alt text](image-49.png)
+
+Abrimos la terminal e instalamos las dependencias que se necesitan para poder correr el proyecto, como MongoDB y PostgreSQL
+![alt text](image-47.png)
+
+Aqui corrimos el frontend
+![alt text](image-48.png)
+
+Reiniciando el servidor en el backend
+![alt text](image-52.png)
+
+Aqui ya el servidor funcionando
+![alt text](image-51.png)
+
+Ya aqui mi aplicacion esta funcionando con mi IP
+![alt text](image-53.png)
+
+
