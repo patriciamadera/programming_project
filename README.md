@@ -1,27 +1,73 @@
 # Plataforma de E-commerce
+
 Caso de Estudio: Desarrollo de una plataforma web e-commerce y despliegue en Amazon Web Service (AWS).
 Este proyecto es una plataforma de Ecommerce enfocada en la compra y administración de películas y series. Permite a los usuarios explorar diferentes títulos, ver detalles de cada película y realizar compras. Además, los administradores pueden editar información de los productos. Este proyecto está construido de la siguiente manera:
-    HTML y Tailwind CSS para el frontend.
+    HTML, Tailwind CSS, Vite + React con Javascript para el frontend.
+    Express, Node.js, JWT para el backend.
+    MongoDB y PostgreSQL para las base de datos.
 
 
-## Estructura del proyecto
+## Tabla de Contenidos
 
-✅ Página para inicio de sesión.
-✅ Página para registrarse.
-✅ Menú lateral interactivo con opciones de navegación.
-✅ Navbar con perfil de usuario e imagen.
-✅ Página principal con listado de películas.
-✅ Página de detalles de la película con botones de compra y edición.
-
-![alt text](image-7.png)
-
-## Tecnologias del Proyecto
-Lenguajes de Programación: HTML5, Javascript
-Frameworks: Vite con React
-Estilos: Tailwind Css
+- [Instalación](#instalación)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Tecnologías Utilizadas](#tecnologias-utilizadas)
+- [Descripción del Proyecto](#descripcion-del-proyecto)
+- [Integración y Seguridad](#integracion-y-seguridad)
+- [Chatbot](#chatbot)
+- [Despliegue en AWS](#despliegue-en-aws)
 
 
-## Descripción
+## Instalación
+1. **Clonar el Repositorio**:
+   git clone https://github.com/patriciamadera/programming_project.git
+   programming_project
+
+2. **Instalar dependencias**:
+    * Para el backend:
+    cd BACKEND
+    npm install
+
+    * Para el frontend:
+    cd FRONTEND
+    cd ecommerce-frontend
+    npm install
+
+3. **Ejecución del sistema**:
+    * Para el backend:
+    npm run dev
+
+    * Para el frontend:
+    npm run dev
+
+
+## Estructura del Proyecto
+![alt text](image-54.png)  
+
+
+## Tecnologías Utilizadas
+- Frontend:
+    * React
+    * Redux (o Context API)
+    * React Router
+    * Axios
+    * TailwindCSS
+- Backend:
+    * Node.js
+    * Express.js
+    * MongoDB
+    * PostgreSQL
+    * Mongoose
+    * JWT (JSON Web Tokens)
+- Otros:
+    * Git
+    * npm 
+
+
+## Descripción del Proyecto
+MovieEcommerce es una aplicación web completa que permite a los usuarios comprar películas en línea y a los administradores les permite Crear, Editar, Eliminar las películas. 
+El proyecto incluye un frontend desarrollado con React con Javascript y un backend desarrollado con Node.js y Express.js. 
+La base de datos utilizada es MongoDB.
 
 ![alt text](image-8.png)
 Esta es la página de inicio, cuenta con un login, un botón para registrarse y si se le olvida la contraseña.
@@ -33,81 +79,43 @@ Aqui se muestra un ejemplo de la validación del login
 ![alt text](image-12.png)
 Validacion en el correo
 
-![alt text](image-10.png)
+![alt text](image-55.png)
 Se muestra el formulario de Registro.
 
-![alt text](image-11.png)
-![alt text](image-13.png)
+![alt text](image-56.png)
 Y las validaciones en el mismo formulario
 
 
-A continuación se muestran fotos de la aplicación hasta el momento
 ![alt text](image-6.png)
+Parte del home de la aplicación
 
 ![alt text](image-1.png)
+Menú del usuario, donde se ve la Cuenta, Configuración y Cerrar Sesión.
 
-![alt text](image-2.png)
+![alt text](image-57.png)
+Navbar con todas las rutas de la aplicación.
 
-![alt text](image-3.png)
+![alt text](image-58.png)
+Grid con todas las películas visibles para los usuarios/clientes.
 
-![alt text](image-4.png)
+![alt text](image-59.png)
+Detalle de las películas, en donde sale la portada, descripció, precio, botón para comprar, entre otros.
 
-![alt text](image-5.png)
+![alt text](image-63.png)
+Modal para Comprar una película en la cual sale el nombre de la película y el precio.
 
-Comando para instalar react Router y asi convertir el frontend en un SPA
-![alt text](image-15.png)
+![alt text](image-60.png)
+Dashboard para los administradores, en donde se muestra el listado de todas las peliculas que se han creado.
 
-Se agregó un folder de routes y dentro de esta se creo un archivo routes.jsx en donde se definen las rutas de la aplicacion
-![alt text](image-16.png)
-![alt text](image-17.png)
+![alt text](image-61.png)
+Página para agregar las películas
 
-Para las rutas se creo un archivo privateRoutes para que el usuario pone una ruta en el buscador, este lo redigira al login.
-![alt text](image-19.png)
-
-Las rutas principales en el proyecto son las siguientes:
-
-/login: Página de inicio de sesión.
-/home: Página principal de la aplicación.
-/movies/:id: Detalles de una película específica.
-/dashboard: Panel de control (requiere autenticación).
-/add-movie: Página para agregar una nueva película (requiere autenticación).
-/edit-movie/:id: Página para editar una película existente (requiere autenticación).
-
-Tambien se creo un archivo db.json para manejar los datos de las peliculas, la cual utiliza http://localhost:3000/movies
-![alt text](image-18.png)
-
-La cual consume el siguiente servicio peliculasService.js, en donde por el momento tenemos GetMovies, GetMovieById y updateMovie
-![alt text](image-20.png)
+![alt text](image-62.png)
+Página para editar una película ya agregada, aqui un ejemplo de una de las películas que cree.
 
 
 
-
-## Backend
-
-Se creo una carpeta dentro del proyecto para manejar el backend, en este caso utilice MongoDB como mi gestor de Base de Datos, Node.js y Express.
-
-Primero inicializamos el proyecto con node.js, lo cual genero el archivo package.json
-![alt text](image-21.png)
-
-Luego instalamos las dependencias e instalamos nodemon para reiniciar el servidor en cambios automáticamente
-![alt text](image-22.png)
-
-Para configurar el servidor con Express, cree un archivo server.js
-
-Luego configure las variables de entorno creando un archivo llamado .env, en donde tengo el usuario y contraseña de mi base de datos.
-
-Este es mi backend hasta el momento
-![alt text](image-23.png)
-Se agregaron models, routes, el servidor
-
-Luego de que se configuro todo, entre a postman y agregue Categorias, Usuarios y Peliculas
-
-![alt text](image-24.png)
-![alt text](image-25.png)
-![alt text](image-26.png)
-
-
-###Integración y Seguridad
+## Integración y Seguridad
 Se agregaron unos middleware para auth y verificar el token
 ![alt text](image-27.png)
 
@@ -133,7 +141,7 @@ Aqui un ejemplo iniciando sesion
 ![alt text](image-34.png)
 
 
-## Desarrollo del Chatbot
+## Chatbot
 
 Primero nos registramos en OpenAI y generamos una nueva clave para guardarla en el proyecto
 
